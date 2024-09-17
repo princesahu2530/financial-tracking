@@ -6,13 +6,14 @@ export default {
   ],
   theme: {
     extend: {
-      colors:{
+      colors: {
         'primary': "#2970ff",
         'black': "#000",
         'white': "#fff",
-        'shadowColor':"rgba(227,227,227,0.75)"
-      }
-      
+      },
+      boxShadow: {
+        'custom': "0px 0px 30px 8px rgba(227,227,227,0.75)", // Define your custom shadow here
+      },
     },
   },
   plugins: [],
