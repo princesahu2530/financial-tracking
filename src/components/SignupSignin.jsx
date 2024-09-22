@@ -185,7 +185,7 @@ const SignupSignin = () => {
         <button
           disabled={loading} // Disable the button while loading
           type="submit"
-          className="bg-primary text-white border border-zinc-300 w-full py-2 rounded-md text-base flex items-center justify-center"
+          className="bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 text-white border border-zinc-300 w-full py-2 rounded-md text-base flex items-center justify-center"
         >
           {loading ? (
             <>
@@ -226,7 +226,7 @@ const SignupSignin = () => {
         <button
           type="button"
           onClick={handleGoogleSignupLogin}
-          className="bg-green-500 text-white w-full py-2 rounded-md text-base mt-2"
+          className="bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 text-white w-full py-2 rounded-md text-base mt-2"
         >
           {state === "Sign Up" ? "Sign Up using Google" : "Login using Google"}
         </button>
