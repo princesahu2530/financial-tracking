@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { toast } from "react-toastify";
-import { auth } from "../firebase"; // Import auth from a separate Firebase config file
+import { auth,db } from "../firebase"; // Import auth from a separate Firebase config file
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 const SignupSignin = () => {
   const [state, setState] = useState("Sign Up");
@@ -97,24 +98,39 @@ const SignupSignin = () => {
     }
   };
 
-  const handleGoogleSignupLogin = () => {
-    setLoading(true); // Start loading
-
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const user = result.user;
-        console.log("Google User>>>", user);
-        toast.success("Logged in with Google!");
-        setLoading(false); // Stop loading
-
-        // Navigate to dashboard
-        navigate("/dashboard");
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        toast.error(errorMessage);
-        setLoading(false); // Stop loading
-      });
+  const handleGoogleSignupLogin = async () => {
+    setLoading(true);
+  
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+  
+      console.log("Google User>>>", user);
+      toast.success("Logged in with Google!");
+  
+      // ✅ Check if user already exists in Firestore
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+  
+      if (!userSnap.exists()) {
+        // ✅ Save new user in Firestore
+        await setDoc(userRef, {
+          uid: user.uid,
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          createdAt: new Date(),
+        });
+      }
+  
+      setLoading(false);
+      navigate("/dashboard");
+  
+    } catch (error) {
+      console.error("Google Sign-In Error:", error.message);
+      toast.error(error.message);
+      setLoading(false);
+    }
   };
 
   function createDoc(user) {

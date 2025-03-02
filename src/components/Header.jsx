@@ -22,7 +22,7 @@ function Header() {
   }, [user, navigate]);
 
   return (
-    <div className="sticky top-0 w-full p-4 bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 shadow-custom flex justify-between items-center">
+    <div className="sticky top-0  p-4 bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 shadow-custom flex justify-between items-center  mx-4 sm:mx-8 md:mx-16">
       {/* Logo / Title */}
       <p className="text-white font-bold text-2xl sm:text-3xl md:text-4xl m-0">
         FinTrack
